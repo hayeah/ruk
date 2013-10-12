@@ -6,6 +6,7 @@ end
 
 require "ruk/line"
 require "ruk/matcher"
+require "ruk/clause"
 
 class Ruk::Processor
   def initialize(matcher,opts={})
@@ -23,7 +24,7 @@ class Ruk::Processor
   end
 end
 
-class Ruk::Clause
+class Ruk::EvalJunk
   class << self
     # build a matacher object from string
     def build(*args)
@@ -46,18 +47,6 @@ class Ruk::Clause
     end
 
     def when(arg=nil,&block)
-    end
-  end
-
-  def initialize(matcher,&block)
-    @matcher = matcher
-    @processor = block
-  end
-
-  def process(line)
-    if @matcher.match?(line)
-      block = @processor
-      line.instance_eval &block
     end
   end
 end
