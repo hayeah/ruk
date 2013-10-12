@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require "ruk"
+require "optparse"
+
+Ruk::CLI.new.run
