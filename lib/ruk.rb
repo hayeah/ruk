@@ -7,6 +7,7 @@ end
 require "ruk/line"
 require "ruk/matcher"
 require "ruk/clause"
+require "ruk/eval"
 require "ruk/cli"
 
 class Ruk::Processor
@@ -22,32 +23,5 @@ class Ruk::Processor
       output.puts result if result # TODO option to disable default print
       lineno += 1
     }
-  end
-end
-
-class Ruk::EvalJunk
-  class << self
-    # build a matacher object from string
-    def build(*args)
-      if args.length == 2 # short hand form
-        at = args[0].strip
-        match = eval("Ruk::Matcher.when #{at}")
-        processor = eval("Proc.new { #{args[1]} }")
-        self.new(match,&processor)
-      else
-        expr = args[0]
-        # Explicitly prefixing the class allows the "when" class method to work
-        expr = "Ruk::Matcher.#{expr.strip}"
-        self.instance_eval(expr)
-      end
-    end
-
-    def at(arg,&block)
-      matcher = self.when(arg)
-      Ruk::Matcher.new(matcher,&block)
-    end
-
-    def when(arg=nil,&block)
-    end
   end
 end
