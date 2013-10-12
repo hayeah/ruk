@@ -4,7 +4,8 @@ source 'https://rubygems.org'
 gemspec
 
 group :test, :development do
-  gem "rspec", "~> 2.12.0"
+  gem "rspec", "~> 2.14.0"
+  gem "rspec-mocks", "~> 2.14.0"
   gem 'guard'
   gem 'guard-rspec', require: false
 end
