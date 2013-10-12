@@ -57,8 +57,9 @@ module Ruk::Matcher
       line.instance_eval &@block
     end
 
-    # def do(&block)
-    #   Ruk::Matcher.new(self,&block)
-    # end
+    # @return [Ruk::Clause]
+    def do(&block)
+      Ruk::Clause.new(self,&block)
+    end
   end
 end

@@ -2,7 +2,7 @@ class Ruk::CLI
   def run
     options.permute!
     args = ARGV
-    matcher = Ruk::Matcher.build *args
+    matcher = Ruk::Eval.build *args
     @input = $stdin
     @output = $stdout
     @error = $stderr
