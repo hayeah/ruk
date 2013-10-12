@@ -1,6 +1,7 @@
 # Ruk
 
-TODO: Write a gem description
+This is for those situations where you have two problems, and one of
+them is awk.
 
 ## Installation
 
