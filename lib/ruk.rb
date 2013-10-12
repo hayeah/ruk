@@ -16,6 +16,9 @@ class Ruk::Line < DelegateClass(String)
   def l
     self.__getobj__
   end
+
+  alias_method :line, :l
+
 end
 
 class Ruk::Processor
