@@ -2,9 +2,17 @@ require "spec_helper"
 
 describe Ruk::Eval do
   include Helpers
+  def ruk(*args)
+    Ruk::Eval.build(*args)
+  end
+
+  def process(line)
+    subject.process(line)
+  end
+
   context "build(match,action) # shorthand form:" do
     subject(:clause) {
-      Ruk::Eval.build("10","self")
+      ruk("10","self")
     }
 
     it { should be_a(Ruk::Eval) }
@@ -16,39 +24,31 @@ describe Ruk::Eval do
 
   context "build(matcher) # explicit form:" do
     subject(:clause) {
-      Ruk::Eval.build("at(10) { self }")
+      ruk("at(10) { self }")
     }
 
     it { should be_a(Ruk::Eval) }
     it "matches and returns the 10th line" do
       this = line(10)
-      clause.process(this).should == this
+      process(this).should == this
     end
   end
 
   # test cases
   context "short form with block matcher:" do
-    subject(:clause) {
-      Ruk::Eval.build("{ length > 3 }", "self")
+    subject {
+      ruk("{ length > 3 }", "self")
     }
 
     it "matches lines longer than 3 chars" do
       this = "abcd"
-      clause.process(this).should == this
+      process(this).should == this
     end
 
     it "doesn't match a line less than 3 chars" do
       this = "abc"
-      clause.process(this).should be_nil
+      process(this).should be_nil
     end
-  end
-
-  def ruk(*args)
-    Ruk::Eval.build(*args)
-  end
-
-  def process(line)
-    subject.process(line)
   end
 
   context "at(is {...}) { ... }" do
@@ -58,7 +58,7 @@ describe Ruk::Eval do
 
     it "matches 'abc'" do
       this = "cba"
-      clause.process(this).should == this
+      process(this).should == this
     end
   end
 
