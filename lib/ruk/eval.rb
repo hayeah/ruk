@@ -28,6 +28,8 @@ module Ruk
       return ev
     end
 
+    # Evals on a line. Chooses the first matching clause.
+    # @returns result of action, or nil if nothing matched.
     def process(line)
       for clause in @clauses do
         if clause.match? line
