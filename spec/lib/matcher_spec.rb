@@ -1,13 +1,8 @@
 require 'spec_helper'
 
 describe Ruk::Matcher do
-  def build(*args,&block)
-    Ruk::Matcher.build(*args,&block)
-  end
-
-  def line(n)
-    Ruk::Line.new("line #{n}",n)
-  end
+  include Helpers
+  alias_method :build, :matcher
 
   let(:line10) { line(10) }
   let(:line5) { line(5) }
