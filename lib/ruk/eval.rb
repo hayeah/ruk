@@ -1,7 +1,6 @@
 module Ruk
   # This is the evaluator for a Ruk expression
-  module Eval
-    extend self
+  class Eval
     # Builds a clause by interpreting string expressions.
     #
     # The expressions should eval to a clause.
@@ -15,16 +14,32 @@ module Ruk
     # ruk <clause>
     #
     # @return [Ruk::Clause]
-    def build(*args)
+    def self.build(*args)
+      ev = self.new
       if args.length == 2 # short hand form
         at = args[0].strip
-        match = eval("is #{at}")
+        match = ev.instance_eval("is #{at}")
         action = eval("Proc.new { #{args[1]} }")
-        Ruk::Clause.new(match,&action)
+        ev.at(match,&action)
       else
         expr = args[0].strip
-        eval(expr)
+        ev.instance_eval(expr)
       end
+      return ev
+    end
+
+    def process(line)
+      for clause in @clauses do
+        if clause.match? line
+          result = clause.exec line
+          return result
+        end
+      end
+      return nil
+    end
+
+    def initialize
+      @clauses = []
     end
 
     # This binds an action to a pattern matcher.
@@ -32,7 +47,9 @@ module Ruk
     # @return [Ruk::Clause]
     def at(arg=nil,&action)
       matcher = self.is(arg)
-      Ruk::Clause.new(matcher,&action)
+      clause = Ruk::Clause.new(matcher,&action)
+      @clauses.push clause
+      clause
     end
 
     # Builds a pattern matcher.

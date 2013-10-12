@@ -7,9 +7,17 @@ module Ruk
     end
 
     def process(line)
-      if @matcher.match?(line)
-        line.instance_eval &@action
+      if self.match?(line)
+        self.exec(line)
       end
+    end
+
+    def match?(line)
+      @matcher.match?(line)
+    end
+
+    def exec(line)
+      line.instance_eval &@action
     end
   end
 end
