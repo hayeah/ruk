@@ -18,13 +18,11 @@ module Ruk
     def build(*args)
       if args.length == 2 # short hand form
         at = args[0].strip
-        match = eval("#{self}.when #{at}")
+        match = eval("is #{at}")
         action = eval("Proc.new { #{args[1]} }")
         Ruk::Clause.new(match,&action)
       else
         expr = args[0].strip
-        # Explicitly prefixing expression with the eval object to allow the "when" method to be syntatically correct
-        expr = "#{self}.#{expr}"
         eval(expr)
       end
     end
@@ -33,17 +31,15 @@ module Ruk
     #
     # @return [Ruk::Clause]
     def at(arg=nil,&action)
-      matcher = self.when(arg)
+      matcher = self.is(arg)
       Ruk::Clause.new(matcher,&action)
     end
 
     # Builds a pattern matcher.
     # 
     # @return [Ruk::Matcher]
-    def when(arg=nil,&block)
+    def is(arg=nil,&block)
       Ruk::Matcher.build(arg,&block)
     end
-
-    alias_method :test, :when
   end
 end

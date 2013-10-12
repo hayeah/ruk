@@ -47,9 +47,9 @@ describe Ruk::Eval do
     Ruk::Eval.build(*args)
   end
 
-  context "when {...}.do {}:" do
+  context "is {...}.do {}:" do
     subject(:clause) {
-      ruk("test { self == 'cba' }.do { self }")
+      ruk("is { self == 'cba' }.do { self }")
     }
 
     it "matches 'abc'" do
@@ -58,14 +58,18 @@ describe Ruk::Eval do
     end
   end
 
-  context "at(test {...}) { ... }" do
+  context "at(is {...}) { ... }" do
     subject(:clause) {
-      ruk("at(test { self == 'cba' }) { self }")
+      ruk("at(is { self == 'cba' }) { self }")
     }
 
     it "matches 'abc'" do
       this = "cba"
       clause.process(this).should == this
     end
+  end
+
+  context "at(...) { ... }.at(...) { ... }:" do
+    subject { ruk("at(1) { 'a' }.at(2) { 'b' }")  }
   end
 end

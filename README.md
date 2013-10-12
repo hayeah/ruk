@@ -3,6 +3,8 @@
 This is for those situations where you have two problems, and one of
 them is awk.
 
+ruk 'begin {}; at {}; at {}; end {}'
+
 ## Installation
 
 Add this line to your application's Gemfile:
