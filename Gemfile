@@ -8,4 +8,5 @@ group :test, :development do
   gem "rspec-mocks", "~> 2.14.0"
   gem 'guard'
   gem 'guard-rspec', require: false
+  gem 'terminal-notifier-guard'
 end
