@@ -1,7 +1,7 @@
 module Ruk
   # This is the evaluator for a Ruk expression
   class Eval
-    # Builds a clause by interpreting string expressions.
+    # Builds an evaluator by interpreting string expressions.
     #
     # The expressions should eval to a clause.
     #
@@ -13,7 +13,7 @@ module Ruk
     #
     # ruk <clause>
     #
-    # @return [Ruk::Clause]
+    # @return [Ruk::Eval]
     def self.build(*args)
       ev = self.new
       if args.length == 2 # short hand form
@@ -79,7 +79,7 @@ module Ruk
     end
 
     # Builds a pattern matcher.
-    # 
+    #
     # @return [Ruk::Matcher]
     def is(arg=nil,&block)
       Ruk::Matcher.build(arg,&block)
