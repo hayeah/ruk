@@ -40,12 +40,12 @@ module Ruk
     end
 
     def final(&action)
-      @begin_actions.push action
+      @final_actions.push action
       self
     end
 
     def on_final
-      for action in @begin_actions do
+      for action in @final_actions do
         action.call
       end
     end
@@ -65,7 +65,7 @@ module Ruk
     def initialize
       @clauses = []
       @begin_actions = []
-      @end_actions = []
+      @final_actions = []
     end
 
     # This binds an action to a pattern matcher.
