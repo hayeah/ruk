@@ -2,12 +2,12 @@ class Ruk::CLI
   def run
     options.permute!
     args = ARGV
-    matcher = Ruk::Eval.build *args
-    @input = $stdin
-    @output = $stdout
-    @error = $stderr
-    ruk = Ruk::Processor.new(matcher)
-    ruk.process(@input,@output,@error)
+    evaluator = Ruk::Eval.build *args
+    input = $stdin
+    output = $stdout
+    error = $stderr
+    processor = Ruk::Processor.new(evaluator,input,output,error)
+    processor.process
   end
 
   def options
@@ -17,7 +17,7 @@ class Ruk::CLI
       o.on "-v", "--invert", "Invert the default matcher" do
         @invert = true
       end
-      o.on_tail "-h","--help","Show Help" do 
+      o.on_tail "-h","--help","Show Help" do
         puts o
         exit
       end
