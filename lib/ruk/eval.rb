@@ -28,6 +28,28 @@ module Ruk
       return ev
     end
 
+    def begin(&action)
+      @begin_actions.push action
+      self
+    end
+
+    def on_begin
+      for action in @begin_actions do
+        action.call
+      end
+    end
+
+    def final(&action)
+      @begin_actions.push action
+      self
+    end
+
+    def on_final
+      for action in @begin_actions do
+        action.call
+      end
+    end
+
     # Evals on a line. Chooses the first matching clause.
     # @returns result of action, or nil if nothing matched.
     def process(line)
@@ -42,6 +64,8 @@ module Ruk
 
     def initialize
       @clauses = []
+      @begin_actions = []
+      @end_actions = []
     end
 
     # This binds an action to a pattern matcher.

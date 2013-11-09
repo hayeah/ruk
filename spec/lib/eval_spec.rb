@@ -83,4 +83,26 @@ describe Ruk::Eval do
       e.process(line(3)).should == "c"
     end
   end
+
+  context "begin { ... }:" do
+    let(:dummy) { double("dummy") }
+    subject {
+      ev = Ruk::Eval.new
+      # ev.begin { dummy.hit2 }
+    }
+
+    it "runs begin callback" do
+      dummy.should_receive :hit
+      subject.begin { dummy.hit }
+      subject.on_begin
+    end
+
+    it "runs callbacks in order" do
+      dummy.should_receive(:hit).ordered
+      dummy.should_receive(:hit2).ordered
+      subject.begin { dummy.hit }
+      subject.begin { dummy.hit2 }
+      subject.on_begin
+    end
+  end
 end
