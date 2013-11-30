@@ -3,4 +3,4 @@
 require "ruk"
 require "optparse"
 
-Ruk::CLI.new.run
+Ruk::CLI.run
